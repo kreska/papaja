@@ -64,12 +64,12 @@
             },
 
             red: {
-                vspeed: 15,
+                vspeed: 8,
                 sprite: spr.balloon.red
             },
 
             blue: {
-                vspeed: 10,
+                vspeed: 7,
                 sprite: spr.balloon.blue
             },
 
