@@ -8,16 +8,15 @@
     spr.balloon = {};
 
     // The new Sprite function will return a new sprite object.
-    spr.balloon.red = new Sprite('img/mario.png',1,32,43);
-    spr.balloon.blue = new Sprite('img/star.png',1,32,43);
-    spr.balloon.green = new Sprite('img/bomg.png',1,32,43);
+    spr.balloon.red = new Sprite('img/mario.png',1,26,40);
+    spr.balloon.blue = new Sprite('img/star.png',1,57,57);
+    spr.balloon.green = new Sprite('img/bomg.png',1,79,79);
     spr.background = new Sprite('img/background.png',1,0,0);
 
     // This function will be invoked when all of the resources have finished downloading
     load(function() {
         obj.balloon = {
             parent: {
-                mask: spr.balloon.red.mask,
 
                 // The initialization function will be invoked when an object is registered.
                 initialize: function(t) {
@@ -64,18 +63,24 @@
             },
 
             red: {
-                vspeed: 8,
-                sprite: spr.balloon.red
+                vspeed: 3,
+                sprite: spr.balloon.red,
+                mask: spr.balloon.red.mask
+
             },
 
             blue: {
-                vspeed: 7,
-                sprite: spr.balloon.blue
+                vspeed: 2,
+                sprite: spr.balloon.blue,
+                mask: spr.balloon.blue.mask
+
             },
 
             green: {
-                vspeed: 5,
-                sprite: spr.balloon.green
+                vspeed: 1,
+                sprite: spr.balloon.green,
+                mask: spr.balloon.green.mask
+
             }
         };
 
