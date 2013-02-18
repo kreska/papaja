@@ -34,7 +34,7 @@
                         loop.remove(t);
                     }
 
-                    // If the balloon moves so far up that it is outside of the view, remove it
+                    // If the object moves so far up that it is outside of the view, remove it
                     if (t.y < -40) {
                         loop.remove(t);
                     }
@@ -62,7 +62,30 @@
             bomb: {
                 vspeed: 1,
                 sprite: spr.gameObjects.bomb,
-                mask: spr.gameObjects.bomb.mask
+                mask: spr.gameObjects.bomb.mask,
+                clicked: false,
+
+                tick: function(t) {
+                    t.y -= t.vspeed;
+                    // The collision.point function determines if a point lies within a mask.
+                    if (mouse.left.down && collision.point(t,mouse.x,mouse.y,false)) {
+                        global.score += t.vspeed;
+                        t.x = mouse.x;
+                        t.y = mouse.y;
+                        t.clicked=true;
+                    }
+
+                    if(t.clicked && mouse.left.pressed){
+                        t.x = mouse.x;
+                        t.y = mouse.y;
+                    }else{
+                        t.clicked=false;
+                    }
+                },
+
+                draw: function(t) {
+                    t.sprite.draw(t.x,t.y);
+                }
             }
         };
 
