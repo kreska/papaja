@@ -4,48 +4,33 @@
     init('game',640,480);
     loop.rate = 30;
 
-    // The balloon object is created to better organize the sprites
-    spr.balloon = {};
+    spr.gameObjects = {};
+    spr.gameObjects.mario = new Sprite('img/mario.png',1,26,40);
+    spr.gameObjects.star = new Sprite('img/star.png',1,57,57);
+    spr.gameObjects.bomb = new Sprite('img/bomg.png',1,79,79);
 
-    // The new Sprite function will return a new sprite object.
-    spr.balloon.red = new Sprite('img/mario.png',1,26,40);
-    spr.balloon.blue = new Sprite('img/star.png',1,57,57);
-    spr.balloon.green = new Sprite('img/bomg.png',1,79,79);
     spr.background = new Sprite('img/background.png',1,0,0);
 
     // This function will be invoked when all of the resources have finished downloading
     load(function() {
-        obj.balloon = {
+        obj.gameObject = {
             parent: {
-
-                // The initialization function will be invoked when an object is registered.
+                //constructor?
+                // The t parameter passed to this function will hold the same value as "this" will inside a function
                 initialize: function(t) {
-                    // The t parameter passed to this function will hold the same value as "this" will inside a function
-                    // It could be written like this in every function:
-                    // var t = this;
-                    // Having it passed as a parameter saves time.
-
-                    // The x and y properties determine the position of the object in game space.
-                    // The x coordinates increase to the left and the y coordinates increase downwards.
-
-                    // The balloon will be randomly assigned a position
+                    //position the objects
                     t.x = Math.floor(Math.random()*640);
-
-                    // This y coordinate will start the balloon below the view of the game view.
                     t.y = 523;
-
                     t.angle = 0;
                 },
 
+                //on every "tick" do
                 tick: function(t) {
-                    // This controls the upward movement of the balloon
                     t.y -= t.vspeed;
-
-                    // mouse.left.down holds a value of true if the left mouse button has been
-                    // pressed down since the end of the last loop
                     // The collision.point function determines if a point lies within a mask.
                     if (mouse.left.down && collision.point(t,mouse.x,mouse.y,false)) {
                         global.score += t.vspeed;
+                        //disappear t:
                         loop.remove(t);
                     }
 
@@ -56,38 +41,35 @@
                 },
 
                 draw: function(t) {
-                    // The actual sprite of the balloon is drawn here.
-                    // All sprite objects have a draw method that is used to draw a sprite.
                     t.sprite.draw(t.x,t.y);
                 }
             },
 
-            red: {
+            //code specific for each implementation of game objects:
+            mario: {
                 vspeed: 3,
-                sprite: spr.balloon.red,
-                mask: spr.balloon.red.mask
+                sprite: spr.gameObjects.mario,
+                mask: spr.gameObjects.mario.mask
 
             },
 
-            blue: {
+            star: {
                 vspeed: 2,
-                sprite: spr.balloon.blue,
-                mask: spr.balloon.blue.mask
-
+                sprite: spr.gameObjects.star,
+                mask: spr.gameObjects.star.mask
             },
 
-            green: {
+            bomb: {
                 vspeed: 1,
-                sprite: spr.balloon.green,
-                mask: spr.balloon.green.mask
-
+                sprite: spr.gameObjects.bomb,
+                mask: spr.gameObjects.bomb.mask
             }
         };
 
         // Set up the inheritence chain
-        obj.balloon.red.proto = obj.balloon.parent;
-        obj.balloon.blue.proto = obj.balloon.parent;
-        obj.balloon.green.proto = obj.balloon.parent;
+        obj.gameObject.mario.proto = obj.gameObject.parent;
+        obj.gameObject.star.proto = obj.gameObject.parent;
+        obj.gameObject.bomb.proto = obj.gameObject.parent;
 
         obj.background = {
             depth: -1,
@@ -159,28 +141,26 @@
             // Register the background and score objects
             loop.register(obj.background,0,0);
             loop.register(obj.score,0,0);
-
             global.score = 0;
 
             // The balloonCreator alarm controls the timing of the creations of the balloons
-            var balloonCreator = new Alarm(function() {
-                var bal = obj.balloon;
+            var gameCreator = new Alarm(function() {
 
                 // The choose function will randomly choose one of the passed parameters and return it.
                 // The loop.beget function is a combination of the Object.create and loop.register functions
-                loop.beget(Math.choose(bal.red,bal.blue,bal.green));
+                loop.beget(Math.choose(obj.gameObject.mario,obj.gameObject.star,obj.gameObject.bomb));
 
-                // The alarm resets itself for half a second. Balloons will spawn half a second apart.
+                // The alarm resets itself for half a second. Objects will spawn half a second apart.
                 this.time = loop.rate*.5;
             });
 
             // Set the initial alarm time to 0 so it will trigger right away.
-            balloonCreator.time = 0;
+            gameCreator.time = 0;
         };
 
         rm.gameOver = function() {
            loop.register(obj.background,0,0);
-            loop.register(obj.gameOver);
+           loop.register(obj.gameOver);
         };
 
         loop.active = true;
