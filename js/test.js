@@ -76,8 +76,8 @@
                     }
 
                     if(t.clicked && mouse.left.pressed){
-                        t.x = mouse.x;
-                        t.y = mouse.y;
+                        t.x = mouse.x + t.sprite.width/2;
+                        t.y = mouse.y + t.sprite.height/2;
                     }else{
                         t.clicked=false;
                     }
