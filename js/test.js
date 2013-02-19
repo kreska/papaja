@@ -4,123 +4,14 @@
     init('game',640,480);
     loop.rate = 30;
 
-    spr.gameObjects = {};
-    spr.gameObjects.mario = new Sprite('img/mario.png',1,26,40);
-    spr.gameObjects.star = new Sprite('img/star.png',1,57,57);
-    spr.gameObjects.bomb = new Sprite('img/bomg.png',1,79,79);
 
-    spr.background = new Sprite('img/background.png',1,0,0);
 
     // This function will be invoked when all of the resources have finished downloading
     load(function() {
-        obj.gameObject = {
-            parent: {
-                //constructor?
-                // The t parameter passed to this function will hold the same value as "this" will inside a function
-                initialize: function(t) {
-                    //position the objects
-                    t.x = Math.floor(Math.random()*640);
-                    t.y = 523;
-                    t.angle = 0;
-                },
-
-                //on every "tick" do
-                tick: function(t) {
-                    t.y -= t.vspeed;
-                    // The collision.point function determines if a point lies within a mask.
-                    if (mouse.left.down && collision.point(t,mouse.x,mouse.y,false)) {
-                        global.score += t.vspeed;
-                        //disappear t:
-                        loop.remove(t);
-                    }
-
-                    // If the object moves so far up that it is outside of the view, remove it
-                    if (t.y < -40) {
-                        loop.remove(t);
-                    }
-                },
-
-                draw: function(t) {
-                    t.sprite.draw(t.x,t.y);
-                }
-            },
-
-            //code specific for each implementation of game objects:
-            mario: {
-                vspeed: 3,
-                sprite: spr.gameObjects.mario,
-                mask: spr.gameObjects.mario.mask
-
-            },
-
-            star: {
-                vspeed: 2,
-                sprite: spr.gameObjects.star,
-                mask: spr.gameObjects.star.mask
-            },
-
-            bomb: {
-                vspeed: 1,
-                sprite: spr.gameObjects.bomb,
-                mask: spr.gameObjects.bomb.mask,
-                clicked: false,
-
-                tick: function(t) {
-                    t.y -= t.vspeed;
-                    // The collision.point function determines if a point lies within a mask.
-                    if (mouse.left.down && collision.point(t,mouse.x,mouse.y,false)) {
-                        global.score += t.vspeed;
-                        t.x = mouse.x;
-                        t.y = mouse.y;
-                        t.clicked=true;
-                    }
-
-                    if(t.clicked && mouse.left.pressed){
-                        t.x = mouse.x + t.sprite.width/2;
-                        t.y = mouse.y + t.sprite.height/2;
-                    }else{
-                        t.clicked=false;
-                    }
-                },
-
-                draw: function(t) {
-                    t.sprite.draw(t.x,t.y);
-                }
-            }
-        };
-
-        // Set up the inheritence chain
-        obj.gameObject.mario.proto = obj.gameObject.parent;
-        obj.gameObject.star.proto = obj.gameObject.parent;
-        obj.gameObject.bomb.proto = obj.gameObject.parent;
-
         obj.background = {
             depth: -1,
             draw: function(t) {
                 spr.background.draw(0,0);
-            }
-        };
-
-        // The gameOver object controls the drawing of the final score and allows the user
-        // to press enter to start a new game.
-        obj.gameOver = {
-            tick: function(t) {
-                // If the enter key has been released, switch back to the play room
-                if (key.enter.up) {
-                    loop.room = rm.play;
-                }
-            },
-
-            // Here the game over texts are drawn
-            draw: function(t) {
-                draw.textHalign = 'center';
-                draw.textValign = 'middle';
-                draw.color = 'white';
-                draw.font = 'normal normal normal 50px Georgia';
-                draw.text(320,240,'Score: '+global.score);
-                draw.font = 'normal normal normal 20px Georgia';
-                draw.textValign = 'alphabetic';
-                draw.text(320,15,'Press enter to start a new game');
             }
         };
 
