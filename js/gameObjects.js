@@ -1,5 +1,7 @@
 var spr=PP.spr,rm=PP.rm,obj=PP.obj,snd=PP.snd,al=PP.al,global=PP.global,Alarm=PP.Alarm,collision=PP.collision,draw=PP.draw,init=PP.init,key=PP.key,load=PP.load,loop=PP.loop,mouse=PP.mouse,physics=PP.physics,Sound=PP.Sound,SoundEffect=PP.SoundEffect,Sprite=PP.Sprite,view=PP.view,walkDown=PP.walkDown;
 
+obj.count = 10;
+
 obj.gameObject = {
     parent: {
         // The t parameter passed to this function will hold the same value as "this" will inside a function
@@ -19,6 +21,7 @@ obj.gameObject = {
                 global.score += t.vspeed;
                 //disappear t:
                 loop.remove(t);
+                obj.count--;
             }
 
             // If the object moves so far up that it is outside of the view, remove it
@@ -35,17 +38,17 @@ obj.gameObject = {
     //code specific for each implementation of game objects:
     mario: {
         vspeed: 3,
-        sprite: spr.gameObjects.mario
+        sprite: spr.mario
     },
 
     star: {
         vspeed: 2,
-        sprite: spr.gameObjects.star
+        sprite: spr.star
     },
 
     bomb: {
         vspeed: 1,
-        sprite: spr.gameObjects.bomb,
+        sprite: spr.bomb,
         clicked: false,
 
         tick: function(t) {
