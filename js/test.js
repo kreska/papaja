@@ -5,9 +5,9 @@
     loop.rate = 30;
 
 
-
     // This function will be invoked when all of the resources have finished downloading
     load(function() {
+
         obj.background = {
             depth: -1,
             draw: function(t) {
