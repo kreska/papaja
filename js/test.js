@@ -24,16 +24,22 @@
 
             // The alarm controls the timing of the creations of the balloons
             var gameCreator = new Alarm(function() {
-                var index = Math.floor(Math.random() * obj.blobs.length -1);
 
-                loop.beget(obj.blobs[index]);
+                var index = Math.floor(Math.random() * (obj.blobs.length -1));
 
-                obj.blobs.splice(index, 1);
+                if(index > -1){
+                    if(obj.debugModeOn){
+                        console.log(index);
+                    }
 
-                if(obj.debugModeOn){
-                    console.log("blobs size " + obj.blobs.length);
+                    loop.beget(obj.blobs[index]);
+
+                    obj.blobs.splice(index, 1);
+
+                    if(obj.debugModeOn){
+                        console.log("blobs size " + obj.blobs.length);
+                    }
                 }
-
                 // The alarm resets itself for half a second. Objects will spawn half a second apart.
                 this.time = loop.rate*.5;
             });
