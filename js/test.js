@@ -3,6 +3,7 @@
 
     init('game',640,480);
     loop.rate = 30;
+    obj.debugModeOn = isDebugModeOn(document.location.search);
 
 
     // This function will be invoked when all of the resources have finished downloading
@@ -23,9 +24,15 @@
 
             // The alarm controls the timing of the creations of the balloons
             var gameCreator = new Alarm(function() {
+                var index = Math.floor(Math.random() * obj.blobs.length -1);
 
-                //Choose one object randomly and register it in the loop
-                loop.beget(Math.choose(obj.gameObject.mario,obj.gameObject.star,obj.gameObject.bomb));
+                loop.beget(obj.blobs[index]);
+
+                obj.blobs.splice(index, 1);
+
+                if(obj.debugModeOn){
+                    console.log("blobs size " + obj.blobs.length);
+                }
 
                 // The alarm resets itself for half a second. Objects will spawn half a second apart.
                 this.time = loop.rate*.5;

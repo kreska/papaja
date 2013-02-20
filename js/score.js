@@ -2,12 +2,9 @@ var spr=PP.spr,rm=PP.rm,obj=PP.obj,snd=PP.snd,al=PP.al,global=PP.global,Alarm=PP
 
 obj.score = {
     tick: function(t){
-
-        obj.debugModeOn = document.controlForm.debugMode.checked;
-
-        if(obj.count <= 0){
-            loop.room = rm.gameOver;
-        }
+//        if(obj.blobs.length == 0){
+//            loop.room = rm.gameOver;
+//        }
     },
 
     draw: function(t) {
