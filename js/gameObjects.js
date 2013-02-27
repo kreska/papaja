@@ -24,14 +24,14 @@ obj.gameObject = {
 
             if (mouse.left.down && collision.point(t,mouse.x,mouse.y,false)) {
                 global.score += t.vspeed;
-                t.x = mouse.x;
-                t.y = mouse.y;
+                differenceX = mouse.x - t.x;
+                differenceY = mouse.y - t.y;
                 t.clicked=true;
             }
 
             if(t.clicked && mouse.left.pressed){
-                t.x = mouse.x + t.sprite.width/2;
-                t.y = mouse.y + t.sprite.height/2;
+                t.x = mouse.x - differenceX;
+                t.y = mouse.y - differenceY;
             }else{
                 t.clicked=false;
             }
