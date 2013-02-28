@@ -25,13 +25,17 @@ obj.gameObject = {
             }
 
             //when object is deselected
-            //TODO: should only deselect if the object is in selected state (drag control should worry about it though)
             if(!mouse.left.pressed){
                 obj.dragControl.deselect(t);
             }
+
         },
 
         draw: function(t) {
+            if(t.selected){
+                //draw selection rectangle around the selected element
+                draw.rectangle(t.x-2 - t.sprite.width, t.y- t.sprite.height - 2, t.sprite.width + 4, t.sprite.height + 4, false, 'red');
+            }
             t.sprite.draw(t.x,t.y);
         }
     },

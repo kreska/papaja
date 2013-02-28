@@ -19,14 +19,17 @@ obj.dragControl = {
     },
 
     deselect : function(gameObject){
+        gameObject.selected = false;
         this.objects.pop(gameObject);
     },
 
     tick : function(t){
         if(t.objects.length > 0 && mouse.left.pressed){
             var selectedObject = t.objects[t.objects.length -1];
+            selectedObject.selected = true;
             selectedObject.x = mouse.x - selectedObject.offsetX;
             selectedObject.y = mouse.y - selectedObject.offsetY;
+
         }
     }
 };
