@@ -20,6 +20,7 @@
             // Register the background and score objects
             loop.register(obj.background,0,0);
             loop.register(obj.score,0,0);
+            loop.register(obj.dragControl);
             global.score = 0;
 
             // The alarm controls the timing of the creations of the balloons

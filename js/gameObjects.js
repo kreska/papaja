@@ -1,12 +1,7 @@
 var spr=PP.spr,rm=PP.rm,obj=PP.obj,snd=PP.snd,al=PP.al,global=PP.global,Alarm=PP.Alarm,collision=PP.collision,draw=PP.draw,init=PP.init,key=PP.key,load=PP.load,loop=PP.loop,mouse=PP.mouse,physics=PP.physics,Sound=PP.Sound,SoundEffect=PP.SoundEffect,Sprite=PP.Sprite,view=PP.view,walkDown=PP.walkDown;
 
-obj.count = 10;
-
 obj.gameObject = {
     parent: {
-        clicked: false,
-
-        // The t parameter passed to this function will hold the same value as "this" will inside a function
         initialize: function(t) {
             //position the objects
             t.x = Math.floor(Math.random()*640);
@@ -15,25 +10,24 @@ obj.gameObject = {
             t.mask = t.sprite.mask;
         },
 
-        //on every "tick" do
         tick: function(t) {
-            // If the object moves so far up that it is outside of the view, stop moving it
+            //move object if it't not at the top border yet
             if(t.y - t.sprite.height > 10){
                 t.y -= t.vspeed;
             }
 
+            //when object is selected
             if (mouse.left.down && collision.point(t,mouse.x,mouse.y,false)) {
+                obj.dragControl.select(t);
                 global.score += t.vspeed;
-                differenceX = mouse.x - t.x;
-                differenceY = mouse.y - t.y;
-                t.clicked=true;
+                t.offsetX = mouse.x - t.x;
+                t.offsetY = mouse.y - t.y;
             }
 
-            if(t.clicked && mouse.left.pressed){
-                t.x = mouse.x - differenceX;
-                t.y = mouse.y - differenceY;
-            }else{
-                t.clicked=false;
+            //when object is deselected
+            //TODO: should only deselect if the object is in selected state (drag control should worry about it though)
+            if(!mouse.left.pressed){
+                obj.dragControl.deselect(t);
             }
         },
 
@@ -59,13 +53,15 @@ obj.gameObject = {
     }
 };
 
+obj.count = 10;
+
 // Set up the inheritence chain
 obj.gameObject.mario.proto = obj.gameObject.parent;
 obj.gameObject.star.proto = obj.gameObject.parent;
 obj.gameObject.bomb.proto = obj.gameObject.parent;
 
 
-obj.blobs = new Array();
+obj.blobs = [];
 obj.blobs[0] = obj.gameObject.mario;
 obj.blobs[1] = obj.gameObject.mario;
 obj.blobs[2] = obj.gameObject.mario;
