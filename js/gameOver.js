@@ -16,7 +16,7 @@ obj.gameOver = {
         draw.textValign = 'middle';
         draw.color = 'white';
         draw.font = 'normal normal normal 50px Georgia';
-        draw.text(320,240,'Score: '+global.score);
+        draw.text(320,240,'Score: ' + global.score);
         draw.font = 'normal normal normal 20px Georgia';
         draw.textValign = 'alphabetic';
         draw.text(320,15,'Press enter to start a new game');
